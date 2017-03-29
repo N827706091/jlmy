@@ -56,7 +56,7 @@ public class WxUtil {
 	 * requestMethod 请求方法{POST/GET}
 	 * outputStr 请求参数
 	 */
-	public static HttpsURLConnection getHttpsUrlConnection(String requestUrl,String requestMethod){
+	private static HttpsURLConnection getHttpsUrlConnection(String requestUrl,String requestMethod){
 		HttpsURLConnection conn=null;
 		try{
 			SSLContext sslContext=SSLContext.getInstance("SSL","SunJSSE");

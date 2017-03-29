@@ -6,7 +6,6 @@ import javax.transaction.Transactional;
 
 import org.hibernate.Criteria;
 import org.hibernate.criterion.Order;
-import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.orm.hibernate4.HibernateTemplate;
@@ -104,6 +103,7 @@ public class BackOtherDaoImpl implements BackOtherDao{
 		}
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public List<IndexHrefInfo> getIndexHrefInfos(int areaID) {
 		Criteria criteria=HibernateUtils.getCriteria(hibernateTemplate, IndexHrefInfo.class);

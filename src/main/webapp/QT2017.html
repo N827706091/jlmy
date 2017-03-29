@@ -6,7 +6,24 @@
 	<script type="text/javascript" src="js/jquery.js"></script>
 	<script type="text/javascript">
 		$(function(){
-			location.href="frontIndex.do";
+			//localStorage.lastname="Smith";
+			alert("111");
+			var wxUserOpenId='';
+			wxUserOpenId=${param.user.wxUserOpenId};
+			alert(wxUserOpenId);
+			if (''==wxUserOpenId || 'undefined'==wxUserOpenId || undefined==wxUserOpenId) {
+				wxUserOpenId=localStorage.wxUserOpenId;
+				alert("1"+wxUserOpenId);
+				if (''==wxUserOpenId || 'undefined'==wxUserOpenId || undefined==wxUserOpenId) {
+					alert(wxUserOpenId);
+					$.post('Wx/UserAuthorize.do',function(data){
+						//alert(data);
+						location.href=data;
+					});
+				}
+			}else {
+				localStorage.wxUserOpenId='${user.wxUserOpenId}';
+			}
 		});
 	</script>
 </head>

@@ -27,7 +27,7 @@
 		<property name="driverClass" value="com.mysql.jdbc.Driver"/>
 		<property name="jdbcUrl" value="jdbc:mysql://localhost:3306/n_test"/>
 		<property name="user" value="root"/>
-		<property name="password" value="admin"/>
+		<property name="password" value="qwe123@R"/>
 		
 		<!-- 若连接数不足，一次向数据库申请多少个连接 -->
 		<property name="acquireIncrement" value="10"/>

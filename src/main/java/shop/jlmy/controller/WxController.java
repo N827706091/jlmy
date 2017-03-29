@@ -4,15 +4,22 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import net.sf.json.JSONObject;
+import shop.jlmy.service.WxService;
 import shop.jlmy.wx.WxUtil;
 
 @Controller
 @RequestMapping("/Wx")
-public class WeiXinController {
+public class WxController {
+
+	@Autowired
+	private WxService wxService;
 
 	@RequestMapping(method=RequestMethod.GET,produces="text/html;charset=UTF-8")
 	@ResponseBody
@@ -24,14 +31,28 @@ public class WeiXinController {
 		return "error";
 	}
 
-	/*@RequestMapping(method=RequestMethod.POST,produces="text/html;charset=UTF-8")
+	@RequestMapping(method=RequestMethod.POST,produces="text/html;charset=UTF-8")
 	@ResponseBody
 	public String Message(HttpServletRequest request,String timestamp,String nonce,String signature){
 		if(WxUtil.checkSignature(signature, timestamp, nonce)){
-			return weiXinService.getXML(request);
+			return null;
 		}
 		return "error";
-	}*/
+	}
+
+	@RequestMapping("UserAuthorize")
+	@ResponseBody
+	public String userAuthorize(){
+		return wxService.userAuthorize();
+	}
+
+	@RequestMapping("getWxUserInfo")
+	public String getWxUserInfo(String code,String state,Model model){
+		System.out.println(code);
+		System.out.println(state);
+		model.addAttribute("wxUserOpenId", "12321321312312");
+		return "front.do?toName=index.jsp";
+	}
 
 //	
 //	@RequestMapping(method=RequestMethod.GET,produces="text/html;charset=UTF-8")

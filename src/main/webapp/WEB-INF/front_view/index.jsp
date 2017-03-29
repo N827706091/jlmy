@@ -173,10 +173,10 @@
 	
 </script>
 <div class="row category">
-        <a href="#" class="col-xs-3"><img class="img-responsive" src="/jlmytk/FRONT_INDEX/SMALLICON/1_small_icon.png"><font>京翎美图</font></a>
-        <a href="#" class="col-xs-3"><img class="img-responsive" src="/jlmytk/FRONT_INDEX/SMALLICON/2_small_icon.png"><font>美甲教程</font></a>
-        <a href="#" class="col-xs-3"><img class="img-responsive" src="/jlmytk/FRONT_INDEX/SMALLICON/3_small_icon.png"><font>精彩视频</font></a>
-        <a href="#" class="col-xs-3"><img class="img-responsive" src="/jlmytk/FRONT_INDEX/SMALLICON/4_small_icon.png"><font>京翎活动</font></a>
+        <a href="#" class="col-xs-3"><img class="img-responsive" src="/jlmytk/A_INDEX/SMALLICON/index_small_icon_1.png"><font>京翎美图</font></a>
+        <a href="#" class="col-xs-3"><img class="img-responsive" src="/jlmytk/A_INDEX/SMALLICON/index_small_icon_2.png"><font>美甲教程</font></a>
+        <a href="#" class="col-xs-3"><img class="img-responsive" src="/jlmytk/A_INDEX/SMALLICON/index_small_icon_3.png"><font>精彩视频</font></a>
+        <a href="#" class="col-xs-3"><img class="img-responsive" src="/jlmytk/A_INDEX/SMALLICON/index_small_icon_4.png"><font>京翎活动</font></a>
     </div>
     
 <div class="row">
