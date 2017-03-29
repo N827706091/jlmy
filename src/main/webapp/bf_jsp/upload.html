@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8"/>
+        <title>上传</title>
+        <link href="http://cdn.bootcss.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet">
+        <link rel="stylesheet" type="text/css" href="file-upload/css/default.css">
+        <link rel="stylesheet" type="text/css" href="file-upload/css/fileinput.css" media="all"/>
+        <link rel="stylesheet" type="text/css" href="css/back_css/style.css"/>
+        <script src="js/jquery.js" type="text/javascript"></script>
+        <script src="file-upload/js/fileinput.js" type="text/javascript"></script>
+        <script src="file-upload/js/locales/zh.js" type="text/javascript"></script>
+        <script src="http://cdn.bootcss.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+        
+        <style type="text/css">
+        	input[type="text"]{
+        		height: 40px;
+        		font-size: 13px;
+        	}
+        	/*pop*/
+			.pop_bg{display:none;background:rgba(0,0,0,.35);width:100%;height:100%;position:fixed;top:0;left:0;z-index:999;}
+			.pop_cont{background:white;min-width:300px;max-width:79%; height:auto;overflow:hidden;position:absolute;top:20%;left:20%; right:10%; margin-left:-150px;border-radius:5px 5px 0 0;}
+			.chk_1 { 
+    display: none; 
+} 
+ 
+.chk_1 + label { 
+    background-color: #FFF; 
+    border: 1px solid #C1CACA; 
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05), inset 0px -15px 10px -12px rgba(0, 0, 0, 0.05); 
+    padding: 9px; 
+    border-radius: 5px; 
+    display: inline-block; 
+    position: relative; 
+    margin-right: 30px; 
+} 
+ 
+.chk_1:checked + label { 
+    background-color: #28bc52; 
+    border: 1px solid #92A1AC; 
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05), inset 0px -15px 10px -12px rgba(0, 0, 0, 0.05), inset 15px 10px -12px rgba(255, 255, 255, 0.1); 
+    color: #243441; 
+} 
+ 
+.chk_1:checked + label:after { 
+    content: '\2714'; 
+    position: absolute; 
+    top: 0px; 
+    left: 0px; 
+    color: #01fe50; 
+    width: 100%; 
+    text-align: center; 
+    font-size: 1.4em; 
+    padding: 1px 0 0 0; 
+    vertical-align: text-top; 
+} 
+		</style>
+    </head>
+    <script type="text/javascript">
+    	var str='';
+    	
+    	function aa(){
+    		//alert(str);
+    		var repertory=$('#repertory').val();
+			$('#bb').html(str);
+			$('#bb').append("库存："+repertory);
+		}
+    		
+    	function inputImageInput(){
+    		var colourValue=$('#c_value').val();
+    		//alert(colourValue);
+    		if (colourValue=='') {
+				alert("颜色名称不能为空！");
+			}else {
+	    		$('#c_Images').html('<input id="colourImage" type="file" name="file" multiple/>');
+	    	    $('#colourImage').fileinput({
+	    	        language: 'zh',
+	    	        maxFileCount: 4,
+	    	        uploadUrl: 'Goods/FileUpload.do?togo=0&goodName='+$('#goodName').val()+'&colourValue='+colourValue,
+	    	        allowedFileExtensions : ['jpg', 'png','gif'],
+	    	    });	
+			}
+    	}
+    	
+    	function detailsImage(){
+    		var goodName=$('#goodName').val();
+    		if (''==goodName) {
+				alert("请输入商品名称！");
+			}else{
+				$('#detailsImage').html('<input id="file-zh" name="file" type="file" multiple/>');
+				$('#file-zh').fileinput({
+			        language: 'zh',
+			        uploadUrl: 'Goods/FileUpload.do?togo=1&goodName='+goodName,
+			        allowedFileExtensions : ['jpg', 'png','gif'],
+			    });
+			}
+    	}
+    	
+    	$(function(){
+    		$("#addColour").click(function(){
+    			var goodName=$('#goodName').val();
+    			//alert(goodName);
+    			if (''==goodName) {
+    				alert("请输入商品名称！");
+    			}else{
+    				$(".pop_bg").fadeIn();
+    			}
+    		});
+    		//弹出：确认按钮
+    		$(".trueBtn").click(function(){
+    			$('#c_Images').html('');
+    			$('#colourList').append('<input name="colourValueList" type="checkbox" class="chk_1" checked="checked" value="'+$('#c_value').val()+'" onclick="return false"/><label>'+$('#c_value').val()+'</label>');
+    			
+				
+    			$(".pop_bg").fadeOut();
+    		});
+    		//弹出：取消或关闭按钮
+    		$(".falseBtn").click(function(){
+    			//alert("你点击了取消/关闭！");//测试
+    			$('#c_Images').html('');
+    			$(".pop_bg").fadeOut();
+    		});
+    	});
+    	
+    </script>
+<body>
+	<section style="margin-left: 10px" class="rt_wrap content mCustomScrollbar">
+	<div class="rt_content">
+	    <section class="pop_bg">
+	    <div id="aaa" class="pop_cont">
+	    <!--title-->
+	    	<h3>弹出提示标题</h3>
+	       	<!--content-->
+	       	<div class="pop_cont_input"><span>颜色：</span>
+	       		<input class="textbox" id="c_value" type="text" placeholder="请输入颜色分类名称"/> 
+	       		<span class="item_name" style="margin-left: 100px">库存：</span>
+        		<input id="repertory" style="height: 40px" type="number" value="0" class="textbox" placeholder="请输入库存数"/>
+	       		<button style="margin-left: 100px" class="link_btn" onclick="inputImageInput()">添加图片</button>
+	       		<p style="font-size: 11px;color: red;margin-left: 10px">*温馨提示，更改颜色名称后需重新点击添加图片按钮*</p>
+	       	</div>
+	       	<!--以pop_cont_text分界-->
+	       	<div id="c_Images" class="pop_cont_text">
+	       		
+	       	</div>
+	       	<!--bottom:operate->button-->
+	       	<div class="btm_btn">
+	        	<input type="button" value="确认" class="input_btn trueBtn"/>
+	       	   	<input type="button" value="关闭" class="input_btn falseBtn"/>
+	       	</div>
+	    </div>
+	    </section>
+	     <!--结束：弹出框效果-->
+		<h1 style="color:red;font-size:20px;font-weight:bold;text-align:center;">添加商品</h1>
+    	<section>
+      		<h2><strong style="color:grey;">分列内容布局</strong></h2>
+      		<ul class="ulColumn2">
+       			<li>
+        			<span class="item_name" style="width:120px;">商品名称：</span>
+        			<input id="goodName" type="text" class="textbox textbox_295" placeholder="文本信息提示..."/>
+        			<span class="errorTips">错误提示信息...</span>
+       			</li>
+	   			<li>
+        			<span class="item_name" style="width:120px;">商品价格：</span>
+        			<input type="text" class="textbox textbox_295" placeholder="文本信息提示..."/>
+        			<span class="errorTips">错误提示信息...</span>
+       			</li>
+	   			<li>
+        			<span class="item_name" style="width:120px;">商品分类：</span>
+        			<select class="select">
+        				<option>指甲油</option>
+        				<option>美容面膜</option>
+        			</select>
+        			<span class="item_name" style="width:120px;">上市时间：</span>
+        			<select class="select">
+        				<option>指甲油</option>
+        				<option>美容面膜</option>
+        			</select>
+       			</li>
+       			<li>
+        			<span class="item_name" style="width:120px;">品牌：</span>
+        			<select class="select">
+        			<option>选择品牌</option>
+        			</select>
+        
+		 
+					<span class="item_name" style="width:120px;">或输入品牌：</span>
+					<input type="text" class="textbox" placeholder="选择品牌后无需输入"/>
+					<span class="errorTips">错误提示信息...</span>
+		
+       			</li>
+       			<li>
+        			<span class="item_name" style="width:120px;">是否热销：</span>
+        			<label class="single_selection"><input type="radio" name="name"/>推荐</label>
+        			<label class="single_selection"><input type="radio" name="name"/>不推荐</label>
+       			</li>
+       			<li id="colourList">
+        			<span class="item_name" style="width:120px;">颜色分类：</span>
+      				<button id="addColour" class="link_btn">添加颜色</button>
+      				
+       			</li>
+       			<li>
+       				<span class="item_name" style="width:120px;">详情图：</span>
+        			<button class="link_btn" onclick="detailsImage()">添加图片</button>
+        			<div id="detailsImage" style="margin-left: 123px;margin-top: 10px;max-width: 80%">
+        				
+        			</div>
+        			
+       			</li>
+       			<li>
+        			<span class="item_name" style="width:120px;"></span>
+        			<input type="submit" class="link_btn"/>
+       			</li>
+      		</ul>
+      	</section>
+      	
+        <input type="button" class="link_btn" onclick="aa()" value="aa"/>
+        <b id="bb"></b>
+    </div>
+ 	</section>
+    </body>
+</html>

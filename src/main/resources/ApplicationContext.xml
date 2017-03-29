@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:jdbc="http://www.springframework.org/schema/jdbc"
+       xsi:schemaLocation="
+            http://www.springframework.org/schema/beans
+            http://www.springframework.org/schema/beans/spring-beans-4.1.xsd
+            http://www.springframework.org/schema/aop
+            http://www.springframework.org/schema/aop/spring-aop.xsd
+            http://www.springframework.org/schema/tx
+            http://www.springframework.org/schema/tx/spring-tx-4.1.xsd
+            http://www.springframework.org/schema/jdbc
+            http://www.springframework.org/schema/jdbc/spring-jdbc-4.1.xsd
+            http://www.springframework.org/schema/context
+            http://www.springframework.org/schema/context/spring-context-4.1.xsd">        
+            
+	<!-- 排除Controller -->
+	<context:component-scan base-package="com.weixin.controller">
+		<context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
+	</context:component-scan>
+	
+	<bean name="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource" destroy-method="close">
+		<property name="driverClass" value="com.mysql.jdbc.Driver"/>
+		<property name="jdbcUrl" value="jdbc:mysql://localhost:3306/n_test"/>
+		<property name="user" value="root"/>
+		<property name="password" value="admin"/>
+		
+		<!-- 若连接数不足，一次向数据库申请多少个连接 -->
+		<property name="acquireIncrement" value="10"/>
+		<property name="acquireRetryDelay" value="1000"></property>
+		<!-- 初始化连接数 -->
+		<property name="initialPoolSize" value="5"/>
+		<!-- 数据库连接池中最小的数据库连接数 -->
+		<property name="minPoolSize" value="50"/>
+		<!-- 数据库连接池中最大的数据库连接数 -->
+		<property name="maxPoolSize" value="1000"/>
+		<!-- 规定未使用连接时间（单位：秒），超过时间则丢弃连接 -->
+		<property name="maxIdleTime" value="30"/>
+		<!-- C3p0数据库连接池可以维护的Statement的个数 -->
+		<property name="maxStatements" value="20"/>
+		<!-- 每个连接池可以使用的Statement对象的个数 -->
+		<property name="maxStatementsPerConnection" value="10"/>
+		<!-- 获取连接失败将会引起所有等待连接池来获取连接的线程抛出异常。但是数据源仍有效保留，
+			   并在下次调用getConnection()的时候继续尝试获取连接。如果设为true，那么在尝试获取
+			   连接失败后该数据源将申明已断开并永久关闭 -->
+		<property name="breakAfterAcquireFailure" value="false"/>
+	</bean>
+	<!-- 扫描该包下的注解，自动实例化 -->
+	<context:component-scan base-package="shop.jlmy"/>
+	
+	<bean id="sessionFactory" class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
+		<property name="dataSource" ref="dataSource"/>
+		<property name="hibernateProperties">
+			<props>
+				<prop key="hibernate.dialect">org.hibernate.dialect.MySQLDialect</prop>
+				<prop key="hibernate.show_sql">true</prop>
+				<prop key="hibernate.format_sql">true</prop>	
+				<prop key="hibernate.hbm2ddl.auto">update</prop>
+				<prop key="hibernate.current_session_context_class">org.springframework.orm.hibernate4.SpringSessionContext</prop>
+				<prop key="hibernate.temp.use_jdbc_metadata_defaults">false</prop>
+			</props>
+		</property>
+		<!-- XML映射文件的属性，如果使用的是注解，这个就不配置了
+    	<property name="mappingResources">
+    		<list>
+    			<value>User.hbm.xml</value>
+    			<value>Student.hbm.xml</value>
+    		</list>
+    	</property>
+    	-->
+		<!-- 扫描注解所在包 -->
+		<property name="packagesToScan">
+			<value>shop.jlmy.entity</value>
+		</property>
+	</bean>
+	<!-- 3、简化hibernate操作，配置HibernateTemplate对象在这个模板下，进行的增删改查操作，默认是只读的，所以，增删改还完成不了，还需要事务的支持 -->
+    <bean id="hibernateTemplate" class="org.springframework.orm.hibernate4.HibernateTemplate">
+    	<property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+    <!-- 4、事务的配置，为了解决3的问题 -->
+    <bean id="hibernateTransactionManager" class="org.springframework.orm.hibernate4.HibernateTransactionManager">
+    	<property name="sessionFactory" ref="sessionFactory"/>
+    	<property name="dataSource" ref="dataSource"/>
+    </bean>
+    <!-- 4.1：事务使用注解来完成 -->
+    <tx:annotation-driven transaction-manager="hibernateTransactionManager"/>
+    
+</beans>
