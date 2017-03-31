@@ -2,17 +2,20 @@ package shop.jlmy.controller;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import net.sf.json.JSONObject;
 import shop.jlmy.service.WxService;
 import shop.jlmy.wx.WxUtil;
+
 
 @Controller
 @RequestMapping("/Wx")
@@ -46,12 +49,23 @@ public class WxController {
 		return wxService.userAuthorize();
 	}
 
-	@RequestMapping("getWxUserInfo")
-	public String getWxUserInfo(String code,String state,Model model){
+	@RequestMapping("/getWxUserInfo")
+	public String getWxUserInfo(String code,String state,HttpSession session){
 		System.out.println(code);
 		System.out.println(state);
-		model.addAttribute("wxUserOpenId", "12321321312312");
-		return "front.do?toName=index.jsp";
+		JSONObject wxUserInfo=wxService.getWxUserInfo(code, state);
+		session.setAttribute("openid", wxUserInfo.getString("openid"));
+		session.setAttribute("nickname", wxUserInfo.getString("nickname"));
+		session.setAttribute("headimgurl", wxUserInfo.getString("headimgurl"));
+		System.out.println(wxUserInfo.toString());
+		return "redirect:/qt.jsp";
+	}
+
+	@RequestMapping("/clearValue")
+	public void clearSession(HttpSession session){
+		System.out.println("清除session");
+		session.removeAttribute("nickname");
+		session.removeAttribute("headimgurl");
 	}
 
 //	

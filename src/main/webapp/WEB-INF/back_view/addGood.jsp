@@ -7,6 +7,7 @@
 	<meta name="author" content="DeathGhost" />
 	<link rel="stylesheet" type="text/css" href="css/back_css/style.css" />
 	<script src="js/jquery.js"></script>
+	<script src="js/back_js/jquery.mCustomScrollbar.concat.min.js"></script>
     <style type="text/css">
     	.myIframe{
      		width: 100%;
@@ -43,7 +44,6 @@
 		var count=0;
 		$(function() {
 			var iframe = document.createElement("iframe");
-			//iframe.src = "addGood_S.do";
 			iframe.src = "back.do?toName=addGood_S.jsp";
 		    iframe.id = "iframepage";
 		    iframe.onload = function(){return false;};

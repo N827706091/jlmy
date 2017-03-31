@@ -5,6 +5,7 @@ import java.util.List;
 import net.sf.json.JSONObject;
 import shop.jlmy.entity.Good;
 import shop.jlmy.entity.GoodColours;
+import shop.jlmy.dto.GoodInfo;
 import shop.jlmy.dto.Page;
 
 public interface GoodService {
@@ -22,4 +23,6 @@ public interface GoodService {
 	int deleteColour(String goodName,GoodColours goodColours);
 	boolean updateGood(Good good,String old_goodName,String colourValues,int ClassSecond_id);
 	boolean updateColourDir(String goodName, int id, String oldValue, String newValue);
+	//商品分页查询
+	Page frontLoadGoods(Page page,int orderBy,String goodName);
 }

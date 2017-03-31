@@ -9,7 +9,7 @@
 			//localStorage.lastname="Smith";
 			alert("111");
 			var wxUserOpenId='';
-			wxUserOpenId=${param.user.wxUserOpenId};
+			wxUserOpenId=;
 			alert(wxUserOpenId);
 			if (''==wxUserOpenId || 'undefined'==wxUserOpenId || undefined==wxUserOpenId) {
 				wxUserOpenId=localStorage.wxUserOpenId;
@@ -28,6 +28,6 @@
 	</script>
 </head>
 <body>
-	
+	<input type="text" value="${user.wxUserOpenId}"/>
 </body>
 </html>

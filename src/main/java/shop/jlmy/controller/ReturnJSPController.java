@@ -20,7 +20,7 @@ public class ReturnJSPController {
 		return "WEB-INF/back_view/"+toName;
 	}
 
-	@RequestMapping("/return_index")
+	@RequestMapping("/index")
 	private String returnJSP() {
 		System.out.println("111");
 		return "/WEB-INF/front_view/index.jsp";

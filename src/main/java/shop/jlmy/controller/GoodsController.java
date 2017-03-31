@@ -76,18 +76,20 @@ public class GoodsController extends FileUpload{
 		return goodService.select_Good(id);
 	}
 
-	@RequestMapping("/getGoodCondition.do")
-	@ResponseBody
-	public JSONObject goodPage(Page page,String goodName,int classSecondID){
-		return goodService.goodPage(page, goodName, classSecondID);
-	}
-
+	//获取目录下所有的图片名称
 	@RequestMapping("/getGoodColours")
 	@ResponseBody
 	public List<String> getGoodColours(String goodName,String colourName){
 		System.out.println("goodName="+goodName);
 		System.out.println("colourName="+colourName);
 		return goodService.getGoodColours(goodName, colourName);
+	}
+
+	@RequestMapping("/getGoodColour")
+	@ResponseBody
+	public String getGoodColour(String goodName,String colourName){
+		List<String> goodColours=goodService.getGoodColours(goodName, colourName);
+		return goodColours.get(0);
 	}
 
 	//获取详情图片
@@ -114,5 +116,23 @@ public class GoodsController extends FileUpload{
 	@ResponseBody
 	public int deleteColour(String goodName,GoodColours goodColours){
 		return goodService.deleteColour(goodName, goodColours);
+	}
+
+	/*
+	 * 前台商品分页查询
+	 */
+	@RequestMapping("/frontLoadGoods")
+	@ResponseBody
+	public Page frontLoadGoods(Page page,int orderBy,String goodName){
+		return goodService.frontLoadGoods(page, orderBy, goodName);
+	}
+
+	/*
+	 * 后台商品管理分页查询
+	 */
+	@RequestMapping("/getGoodCondition.do")
+	@ResponseBody
+	public JSONObject goodPage(Page page,String goodName,int classSecondID){
+		return goodService.goodPage(page, goodName, classSecondID);
 	}
 }

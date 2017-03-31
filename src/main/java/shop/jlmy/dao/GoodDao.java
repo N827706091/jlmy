@@ -16,7 +16,8 @@ public interface GoodDao {
 	boolean delete_Good_Colour(int good_id,int goodColour_id);
 	boolean delete_Good_Colour(int id);
 	List<String> select_Good_Brand();
-	Page goodPage(Page page,String goodName,int classSecondID);
+	Page goodPage(Page page,String goodName,int classSecondID,int orderBy);
 	boolean updateGood(Good good);
 	boolean updateColour(int id,String colourName);
+	//Page getGoods(Page page, int orderBy);
 }

@@ -10,6 +10,8 @@ import java.util.List;
 import java.util.Set;
 import java.util.StringTokenizer;
 
+import javax.persistence.OrderBy;
+
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,6 +20,7 @@ import net.sf.json.JSONObject;
 import net.sf.json.JsonConfig;
 import net.sf.json.processors.JsonValueProcessor;
 import shop.jlmy.dao.GoodDao;
+import shop.jlmy.dto.GoodInfo;
 import shop.jlmy.dto.Page;
 import shop.jlmy.entity.ClassSecond;
 import shop.jlmy.entity.Good;
@@ -88,14 +91,51 @@ public class GoodServiceImpl implements GoodService{
 		return goodDao.select_Good_Brand();
 	}
 
+	/*
+	 * 后台管理商品管理商品分页
+	 * (non-Javadoc)
+	 * @see shop.jlmy.service.GoodService#goodPage(shop.jlmy.dto.Page, java.lang.String, int)
+	 */
 	@Override
 	public JSONObject goodPage(Page page, String goodName, int classSecondID) {
 		JsonConfig jsonConfig=new JsonConfig();
 		JsonDateValueProcessor jsonValueProcessor=new JsonDateValueProcessor();
 		jsonConfig.registerJsonValueProcessor(Date.class, jsonValueProcessor);
-		jsonConfig.setExcludes(new String[]{"classFirst","goods","good"});
-		page=goodDao.goodPage(page, goodName, classSecondID);
+		jsonConfig.setExcludes(new String[]{"classFirst","classSecond","goods","good","goodColours"});
+		page=goodDao.goodPage(page, goodName, classSecondID,0);
 		return JSONObject.fromObject(page, jsonConfig);
+	}
+
+	/*
+	 * 前台商品搜索商品分页
+	 * (non-Javadoc)
+	 * @see shop.jlmy.service.GoodService#frontLoadGoods(shop.jlmy.dto.Page, int, java.lang.String)
+	 */
+	@SuppressWarnings("unchecked")
+	@Override
+	public Page frontLoadGoods(Page page, int orderBy, String goodName) {
+		page=goodDao.goodPage(page, goodName, 0, orderBy);
+		List<Good> goods=(List<Good>) page.getList();
+		List<GoodInfo> goodInfos=new ArrayList<>(0);
+		for (Good good : goods) {
+			GoodInfo goodInfo=new GoodInfo();
+			goodInfo.setId(good.getId());
+			goodInfo.setGoodName(good.getGoodName());
+			goodInfo.setPrice(good.getPrice());
+			Set<GoodColours> goodColours=good.getGoodColours();
+			String colourName=null;
+			for (GoodColours goodColours_ : goodColours) {
+				colourName=goodColours_.getColourName();
+				break;
+			}
+			//获取商品目录下图片名
+			List<String> colourImages=getGoodColours(good.getGoodName(), colourName);
+			goodInfo.setImagePath("/jlmytk/"+good.getGoodName()+"/z/"+colourName+"/"+colourImages.get(0));
+			System.out.println(goodInfo.getImagePath());
+			goodInfos.add(goodInfo);
+		}
+		page.setList(goodInfos);
+		return page;
 	}
 
 	@Override
@@ -186,5 +226,4 @@ public class GoodServiceImpl implements GoodService{
 		};
 		return 0;
 	}
-
 }

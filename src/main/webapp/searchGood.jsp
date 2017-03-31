@@ -24,6 +24,72 @@
 	<style type="text/css">
 		.my li {width: 50%;float: left;display: block;} 
 	</style>
+	<script type="text/javascript">
+		var pageInfo = {
+				pageNow:1,
+				pageSize:6,
+				pageCount:0,
+		}
+		function getParam(name) {
+		    var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
+		    var r = window.location.search.substr(1).match(reg);
+		    if ( r != null ){
+		       return decodeURI(r[2]);
+		    }else{
+		       return null;
+		    } 
+		 }
+		var orderBy=0;
+		function updateOrderBy(sourceBy){
+			//1:销量	2:价格
+			switch (sourceBy) {
+				case 0:orderBy=0;
+				case 1:if(0==orderBy)orderBy=1;if (1==orderBy)orderBy=2;if(2==orderBy)orderBy=1;break;
+				case 2:if(0==orderBy)orderBy=4;if (4==orderBy)orderBy=3;if(3==orderBy)orderBy=4;break;
+				default:				break;
+			}
+		}
+		function loadGoods() {
+			//alert("111");
+			$.post('Goods/frontLoadGoods.do',{
+				'orderBy':1,
+				'goodName':getParam('goodName'),
+				'pageNow':pageInfo.pageNow,
+				'pageSize':pageInfo.pageSize,
+			},function(data){
+				//alert(data.toSource());
+				var goodInfoList=data.list;
+				var goodInfo='<tr>';
+				for (var i = 0; i < goodInfoList.length; i++) {
+					if (i%2==0 && i!=0) {
+						goodInfo+='<tr></tr>';
+					}
+					goodInfo+='<td><img class="tb_pic" src="'+goodInfoList[i].imagePath+'" style="width:100%;">商品名字<h5><font color="#FF0000">￥100</font></h5></td>';
+				}
+				goodInfo+='</tr>';
+				//alert(goodInfo);
+				$('#goodInfo').append(goodInfo);
+			});
+		}
+		$(function(){
+			loadGoods();
+			$(window).scroll(function() {
+				//$(document).scrollTop() 获取垂直滚动的距离
+				//$(document).scrollLeft() 这是获取水平滚动条的距离
+				if ($(document).scrollTop() <= 0) {
+					//alert("滚动条已经到达顶部为0");
+				}
+				if ($(document).scrollTop() >= $(document).height() - $(window).height()) {
+					pageInfo.pageNow+=1;
+					loadGoods();
+					//alert("滚动条已经到达底部为" + $(document).scrollTop());
+				}
+			});
+			$('#').click(function(){
+				
+			});
+		});
+	</script>
 </head>
 <body>
 <div class="container">		
@@ -39,15 +105,11 @@
 	<div class="row">
 		<div class="tb_box">
 			<div class="tb_type tb_type_even clearfix">
-			<table bordercolor="#FFFFFF" border="2" style=" text-align:center">
-							<tr>
-								<td><img class="tb_pic" src="images/mt2.JPG" style="width:100%;">商品名字<h5><font color="#FF0000">￥100</font></h5></td>
-								<td><img class="tb_pic" src="images/mt3.JPG" style="width:100%;">商品名字<h5><font color="#FF0000">￥100</font></h5></td>
-							</tr>
-							<tr>
-								<td><img class="tb_pic" src="images/mt5.JPG" style="width:100%;">商品名字<h5><font color="#FF0000">￥100</font></h5></td>
-								<td><img class="tb_pic" src="images/mt6.JPG" style="width:100%;">商品名字<h5><font color="#FF0000">￥100</font></h5></td>
-							</tr>
+			<table id="goodInfo" bordercolor="#FFFFFF" border="2" style=" text-align:center">
+				<!-- <tr>
+					<td><img class="tb_pic" src="images/mt2.JPG" style="width:100%;">商品名字<h5><font color="#FF0000">￥100</font></h5></td>
+					<td><img class="tb_pic" src="images/mt3.JPG" style="width:100%;">商品名字<h5><font color="#FF0000">￥100</font></h5></td>
+				</tr>
 							<tr>
 								<td><img class="tb_pic" src="images/mt5.JPG" style="width:100%;">商品名字<h5><font color="#FF0000">￥100</font></h5></td>
 								<td><img class="tb_pic" src="images/mt6.JPG" style="width:100%;">商品名字<h5><font color="#FF0000">￥100</font></h5></td>
@@ -56,6 +118,10 @@
 								<td><img class="tb_pic" src="images/mt5.JPG" style="width:100%;">商品名字<h5><font color="#FF0000">￥100</font></h5></td>
 								<td><img class="tb_pic" src="images/mt6.JPG" style="width:100%;">商品名字<h5><font color="#FF0000">￥100</font></h5></td>
 							</tr>
+							<tr>
+								<td><img class="tb_pic" src="images/mt5.JPG" style="width:100%;">商品名字<h5><font color="#FF0000">￥100</font></h5></td>
+								<td><img class="tb_pic" src="images/mt6.JPG" style="width:100%;">商品名字<h5><font color="#FF0000">￥100</font></h5></td>
+							</tr> -->
 						</table>
 			</div>
 		</div>

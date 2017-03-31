@@ -58,6 +58,6 @@
   </error-page>
   -->
   <welcome-file-list>
-    <welcome-file>QT2017.html</welcome-file>
+    <welcome-file>/jlmyIndex/index.html</welcome-file>
   </welcome-file-list>
 </web-app>
