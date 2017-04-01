@@ -43,50 +43,53 @@
 		function updateOrderBy(sourceBy){
 			//1:销量	2:价格
 			switch (sourceBy) {
-				case 0:orderBy=0;
-				case 1:if(0==orderBy)orderBy=1;if (1==orderBy)orderBy=2;if(2==orderBy)orderBy=1;break;
-				case 2:if(0==orderBy)orderBy=4;if (4==orderBy)orderBy=3;if(3==orderBy)orderBy=4;break;
-				default:				break;
+				case 0:orderBy=0;break;
+				case 1:switch(orderBy){case 0:orderBy=1;break;case 1:orderBy=2;break;case 2:orderBy=1;break;case 3:orderBy=1;break;case 4:orderBy=1;break;}break;
+				case 2:switch(orderBy){case 0:orderBy=3;break;case 1:orderBy=3;break;case 2:orderBy=3;break;case 3:orderBy=4;break;case 4:orderBy=3;break;}break;
+				default:break;
 			}
+			pageInfo.pageNow=1;
+			loadGoods(1);
 		}
-		function loadGoods() {
-			//alert("111");
+		function loadGoods(sourceBy) {
 			$.post('Goods/frontLoadGoods.do',{
-				'orderBy':1,
-				'goodName':getParam('goodName'),
+				'orderBy':orderBy,
+				'goodName':'${param.goodName}',
+				'classSecondName':'${param.classSecondName}',
 				'pageNow':pageInfo.pageNow,
 				'pageSize':pageInfo.pageSize,
 			},function(data){
-				//alert(data.toSource());
 				var goodInfoList=data.list;
 				var goodInfo='<tr>';
 				for (var i = 0; i < goodInfoList.length; i++) {
 					if (i%2==0 && i!=0) {
 						goodInfo+='<tr></tr>';
 					}
-					goodInfo+='<td><img class="tb_pic" src="'+goodInfoList[i].imagePath+'" style="width:100%;">商品名字<h5><font color="#FF0000">￥100</font></h5></td>';
+					goodInfo+='<td><a href="goodInfo.jsp?goodID='+goodInfoList[i].id+'"><img class="tb_pic" src="'+goodInfoList[i].imagePath+'" style="width:100%;">'+goodInfoList[i].goodName+'<h5><font color="#FF0000">￥'+goodInfoList[i].price+'</font></h5></a></td>';
 				}
 				goodInfo+='</tr>';
-				//alert(goodInfo);
-				$('#goodInfo').append(goodInfo);
+				//判断是否是第一次进行此条件查询
+				if (0==sourceBy) {
+					$('#goodInfo').append(goodInfo);
+				}else {
+					$('#goodInfo').html(goodInfo);
+				}
 			});
 		}
 		$(function(){
-			loadGoods();
+			loadGoods(1);
 			$(window).scroll(function() {
-				//$(document).scrollTop() 获取垂直滚动的距离
-				//$(document).scrollLeft() 这是获取水平滚动条的距离
+				/*$(document).scrollTop() 获取垂直滚动的距离
+				  $(document).scrollLeft() 这是获取水平滚动条的距离
+				  */
 				if ($(document).scrollTop() <= 0) {
 					//alert("滚动条已经到达顶部为0");
 				}
 				if ($(document).scrollTop() >= $(document).height() - $(window).height()) {
 					pageInfo.pageNow+=1;
-					loadGoods();
+					loadGoods(0);
 					//alert("滚动条已经到达底部为" + $(document).scrollTop());
 				}
-			});
-			$('#').click(function(){
-				
 			});
 		});
 	</script>
@@ -96,9 +99,9 @@
 	<div class="row">
 			<ul class="mod-filter clearfix">
 				<div class="white-bg_2 bb1">
-					<li id="default" class="active"><a href="javascript:void(0);">默认</a></li>
-					<li id="buys"  ><a href="javascript:void(0);" >销量<i class='icon_sort'></i></a></li>
-					<li id="cash"  ><a href="javascript:void(0);" >价格<i class='icon_sort'></i></a></li>
+					<li id="default" class="active"><a href="javascript:updateOrderBy(0);">默认</a></li>
+					<li id="buys"  ><a href="javascript:updateOrderBy(1);" >销量<i class='icon_sort'></i></a></li>
+					<li id="cash"  ><a href="javascript:updateOrderBy(2);" >价格<i class='icon_sort'></i></a></li>
 				</div>
 			</ul>
 	</div>

@@ -24,5 +24,5 @@ public interface GoodService {
 	boolean updateGood(Good good,String old_goodName,String colourValues,int ClassSecond_id);
 	boolean updateColourDir(String goodName, int id, String oldValue, String newValue);
 	//商品分页查询
-	Page frontLoadGoods(Page page,int orderBy,String goodName);
+	Page frontLoadGoods(Page page,int orderBy,String goodName,String classSecondName);
 }

@@ -19,6 +19,7 @@ import org.springframework.stereotype.Service;
 import net.sf.json.JSONObject;
 import net.sf.json.JsonConfig;
 import net.sf.json.processors.JsonValueProcessor;
+import shop.jlmy.dao.ClassSecondDao;
 import shop.jlmy.dao.GoodDao;
 import shop.jlmy.dto.GoodInfo;
 import shop.jlmy.dto.Page;
@@ -33,6 +34,9 @@ import shop.jlmy.utils.JsonDateValueProcessor;
 public class GoodServiceImpl implements GoodService{
 	@Autowired
 	private GoodDao goodDao;
+
+	@Autowired
+	private ClassSecondDao classSecondDao;
 
 	@Override
 	public boolean add_Good(Good good,String colourValues,int ClassSecond_id) {
@@ -101,7 +105,7 @@ public class GoodServiceImpl implements GoodService{
 		JsonConfig jsonConfig=new JsonConfig();
 		JsonDateValueProcessor jsonValueProcessor=new JsonDateValueProcessor();
 		jsonConfig.registerJsonValueProcessor(Date.class, jsonValueProcessor);
-		jsonConfig.setExcludes(new String[]{"classFirst","classSecond","goods","good","goodColours"});
+		jsonConfig.setExcludes(new String[]{"classFirst","classSecond","goods","good"});
 		page=goodDao.goodPage(page, goodName, classSecondID,0);
 		return JSONObject.fromObject(page, jsonConfig);
 	}
@@ -113,8 +117,13 @@ public class GoodServiceImpl implements GoodService{
 	 */
 	@SuppressWarnings("unchecked")
 	@Override
-	public Page frontLoadGoods(Page page, int orderBy, String goodName) {
-		page=goodDao.goodPage(page, goodName, 0, orderBy);
+	public Page frontLoadGoods(Page page, int orderBy, String goodName,String classSecondName) {
+		int classSecondId=0;
+		if (null!=classSecondName && !"".equals(classSecondName)) {
+			System.out.println("111");
+			classSecondId=classSecondDao.select_ClassSecond(classSecondName).getId();
+		}
+		page=goodDao.goodPage(page, goodName, classSecondId, orderBy);
 		List<Good> goods=(List<Good>) page.getList();
 		List<GoodInfo> goodInfos=new ArrayList<>(0);
 		for (Good good : goods) {

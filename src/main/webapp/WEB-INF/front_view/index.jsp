@@ -243,7 +243,7 @@
 			<a href="#" class="active"><i class="navIcon home"></i><span class="text">首页</span></a>
 			<a href="#"><i class="navIcon sort"></i><span class="text">商城</span></a>
 			<a href="#"><i class="navIcon shop"></i><span class="text">购物车</span></a>
-			<a href="#"><i class="navIcon member"></i><span class="text">我的</span></a>
+			<a href="userCenter.jsp"><i class="navIcon member"></i><span class="text">我的</span></a>
 		</div>
 	</div>
 </footer>

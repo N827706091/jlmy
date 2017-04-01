@@ -1,7 +1,5 @@
 package shop.jlmy.dao.impl;
 
-import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
@@ -166,7 +164,7 @@ public class GoodDaoImpl implements GoodDao {
 		 * 4:价格由高到低
 		 */
 		if (0!=orderBy) {
-			System.out.println("o");
+			System.out.println(orderBy);
 			switch (orderBy) {
 				case 1:criteria.addOrder(Order.desc("hot"));break;
 				case 2:criteria.addOrder(Order.asc("hot"));break;

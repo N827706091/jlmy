@@ -123,8 +123,9 @@ public class GoodsController extends FileUpload{
 	 */
 	@RequestMapping("/frontLoadGoods")
 	@ResponseBody
-	public Page frontLoadGoods(Page page,int orderBy,String goodName){
-		return goodService.frontLoadGoods(page, orderBy, goodName);
+	public Page frontLoadGoods(Page page,int orderBy,String goodName,String classSecondName){
+		System.out.println("goodName="+goodName+" -classSecondName="+classSecondName);
+		return goodService.frontLoadGoods(page, orderBy, goodName,classSecondName);
 	}
 
 	/*
