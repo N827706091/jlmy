@@ -99,9 +99,9 @@
 	<div class="row">
 			<ul class="mod-filter clearfix">
 				<div class="white-bg_2 bb1">
-					<li id="default" class="active"><a href="javascript:updateOrderBy(0);">默认</a></li>
-					<li id="buys"  ><a href="javascript:updateOrderBy(1);" >销量<i class='icon_sort'></i></a></li>
-					<li id="cash"  ><a href="javascript:updateOrderBy(2);" >价格<i class='icon_sort'></i></a></li>
+					<li id="default" style="width: 30%" class="active"><a href="javascript:updateOrderBy(0);">默认</a></li>
+					<li id="buys" style="width: 40%"><a href="javascript:updateOrderBy(1);" >销量<i class='icon_sort'></i></a></li>
+					<li id="cash" style="width: 30%"><a href="javascript:updateOrderBy(2);" >价格<i class='icon_sort'></i></a></li>
 				</div>
 			</ul>
 	</div>

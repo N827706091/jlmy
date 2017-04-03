@@ -92,7 +92,7 @@
 			    <artifactId>tomcat7-maven-plugin</artifactId>
 			    <version>2.2</version>
 			    <configuration>
-			        <url>http://www.jlmy.shop/manager/text</url>
+			        <url>http://106.14.61.195/manager/text</url>
 			        <username>admin</username>
 			        <password>qwe123@R</password>
 			        <server>tomcat</server>

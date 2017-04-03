@@ -19,10 +19,12 @@ public class WxOrder {
 	private Integer goodCount;
 	//商品价格
 	private float goodPrice;
-	//支付金额
+	//用户支付金额
 	private float realPay;
 	//快递
-	private long express;
+	private String express;
+	//订单状态
+	private Integer state;
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
@@ -99,10 +101,18 @@ public class WxOrder {
 	}
 
 	@Column(name="Express")
-	public long getExpress() {
+	public String getExpress() {
 		return express;
 	}
-	public void setExpress(long express) {
+	public void setExpress(String express) {
 		this.express = express;
+	}
+
+	@Column(name="State")
+	public Integer getState() {
+		return state;
+	}
+	public void setState(Integer state) {
+		this.state = state;
 	}
 }

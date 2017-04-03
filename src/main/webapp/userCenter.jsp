@@ -14,14 +14,15 @@
 	<link rel="stylesheet" href="css/front_css/style.css?v=1?v=01291">
 	<link rel="stylesheet" href="css/front_css/member.css?v=01291">
 	<link rel="stylesheet" href="css/front_css/order.css?v=01291"><meta http-equiv="content-type" content="text/html; charset=UTF-8">
-	<script charset="utf-8" src="js/jqueryjs"></script>
+	<script charset="utf-8" src="js/jquery.js"></script>
 	<script charset="utf-8" src="js/front_js/global.js?v=01291"></script>
 	<script charset="utf-8" src="js/front_js/bootstrap.min.js?v=01291"></script>
 	<script charset="utf-8" src="js/front_js/template.js?v=01291"></script>
 	<script type="text/javascript">
 		$(function(){
+			alert(localStorage.getItem('nickname'));
 			//设置用户名
-			$('.member_m_x').val(localStorage.getItem('nickName'));
+			$('.member_m_x').html(localStorage.getItem('nickname'));
 			//设置用户头像
 			$('.img-circle').attr('src',localStorage.getItem('headimgurl'));
 		});

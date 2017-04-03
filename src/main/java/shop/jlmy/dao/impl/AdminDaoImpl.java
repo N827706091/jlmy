@@ -4,6 +4,7 @@ import java.util.List;
 import javax.transaction.Transactional;
 import org.hibernate.Criteria;
 import org.hibernate.criterion.Restrictions;
+import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.orm.hibernate4.HibernateTemplate;
 import org.springframework.stereotype.Repository;
@@ -67,6 +68,7 @@ public class AdminDaoImpl implements AdminDao {
 		for (Admin admin : (List<Admin>)page.getList()) {
 			admin.setPassword("");
 		}
+		System.out.println(page);
 		return page;
 	}
 }

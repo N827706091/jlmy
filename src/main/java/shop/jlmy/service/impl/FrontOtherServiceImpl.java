@@ -15,6 +15,7 @@ public class FrontOtherServiceImpl implements FrontOtherService {
 	@Autowired
 	private IndexHrefDao indexHrefDao;
 
+	//获取首页循环滚动图片
 	@Override
 	public List<IndexHrefInfo> getNavImage(int areaID) {
 		return indexHrefDao.getNavImage(areaID);
